@@ -1,0 +1,73 @@
+{
+  "/home/runner/work/fnCAD/fnCAD/src/assets/themes/blue.css": {
+    "file": "blue.css",
+    "src": "/home/runner/work/fnCAD/fnCAD/src/assets/themes/blue.css"
+  },
+  "/home/runner/work/fnCAD/fnCAD/src/assets/themes/dark.css": {
+    "file": "dark.css",
+    "src": "/home/runner/work/fnCAD/fnCAD/src/assets/themes/dark.css"
+  },
+  "/home/runner/work/fnCAD/fnCAD/src/assets/themes/high-contrast.css": {
+    "file": "high-contrast.css",
+    "src": "/home/runner/work/fnCAD/fnCAD/src/assets/themes/high-contrast.css"
+  },
+  "/home/runner/work/fnCAD/fnCAD/src/assets/themes/solarized-light.css": {
+    "file": "solarized-light.css",
+    "src": "/home/runner/work/fnCAD/fnCAD/src/assets/themes/solarized-light.css"
+  },
+  "_app-CiJQPFqb.js": {
+    "file": "app-CiJQPFqb.js",
+    "name": "app",
+    "imports": [
+      "_split-CPyVEc61.js",
+      "_three-DSCWzcQW.js",
+      "_editor-B4aRU_2k.js"
+    ],
+    "dynamicImports": [
+      "src/storage/auth-dialogs.ts"
+    ],
+    "css": [
+      "app.css"
+    ],
+    "assets": [
+      "dark.css",
+      "blue.css",
+      "high-contrast.css",
+      "solarized-light.css"
+    ]
+  },
+  "_app.css": {
+    "file": "app.css",
+    "src": "_app.css"
+  },
+  "_editor-B4aRU_2k.js": {
+    "file": "editor-B4aRU_2k.js",
+    "name": "editor"
+  },
+  "_split-CPyVEc61.js": {
+    "file": "split-CPyVEc61.js",
+    "name": "split"
+  },
+  "_three-DSCWzcQW.js": {
+    "file": "three-DSCWzcQW.js",
+    "name": "three"
+  },
+  "index.html": {
+    "file": "index.js",
+    "name": "index",
+    "src": "index.html",
+    "isEntry": true,
+    "imports": [
+      "_app-CiJQPFqb.js",
+      "_split-CPyVEc61.js",
+      "_three-DSCWzcQW.js",
+      "_editor-B4aRU_2k.js"
+    ]
+  },
+  "src/storage/auth-dialogs.ts": {
+    "file": "auth-dialogs-BoW4KsS2.js",
+    "name": "auth-dialogs",
+    "src": "src/storage/auth-dialogs.ts",
+    "isDynamicEntry": true
+  }
+}

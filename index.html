@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>fnCAD: Geometry from Signed Distance Fields</title>
+    <style>
+      /* Hide content until CSS is loaded to prevent FOUC */
+      html, body {
+        visibility: hidden;
+        background-color: #242424; /* Default dark theme color */
+      }
+      /* Only this loader is visible */
+      #css-loader {
+        visibility: visible;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #242424;
+        color: white;
+        font-family: sans-serif;
+        z-index: 9999;
+      }
+      /* Basic styling for tooltips */
+      .cm-tooltip {
+        border-radius: 4px;
+        box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+      }
+    </style>
+    <script type="module" crossorigin src="./index.js"></script>
+    <link rel="modulepreload" crossorigin href="./split-CPyVEc61.js">
+    <link rel="modulepreload" crossorigin href="./three-DSCWzcQW.js">
+    <link rel="modulepreload" crossorigin href="./editor-B4aRU_2k.js">
+    <link rel="modulepreload" crossorigin href="./app-CiJQPFqb.js">
+    <link rel="stylesheet" crossorigin href="./app.css">
+  </head>
+  <body>
+    <div id="css-loader">Loading...</div>
+    <div id="app">
+      <div id="help-modal" class="modal">
+        <div class="modal-content">
+          <h2 style="margin: 0; display: inline-block; margin-right: 20px">fnCAD Help</h2>
+          <span class="close">&times;</span>
+          <div class="modal-body cheatsheet">
+            <div class="section">
+              <h3>Basic Syntax</h3>
+              <ul>
+                <li><code>var x = 42;</code></li>
+                <li><code>module name() {}</code></li>
+                <li><code>if (x &gt; 0) {}</code></li>
+                <li><code>for(var i = [1:10]) {}</code></li>
+                <li><code>[1, 2, 3]</code></li>
+              </ul>
+            </div>
+
+            <div class="section">
+              <h3>Operators</h3>
+              <ul>
+                <li><code>+ - * /</code></li>
+                <li><code>&lt; &lt;= &gt; &gt;= == !=</code></li>
+                <li><code>&amp;&amp; || !</code></li>
+                <li><code>vector[number]</code></li>
+              </ul>
+            </div>
+
+            <div class="section">
+              <h3>Basic Shapes</h3>
+              <ul>
+                <li><code>sphere(radius);</code></li>
+                <li><code>cube(size);</code></li>
+                <li><code>smooth_cube(size, radius=0.1);</code></li>
+                <li><code>cylinder(radius, height);</code></li>
+                <li><code>cone(radius, height);</code></li>
+              </ul>
+            </div>
+
+            <div class="section">
+              <h3>SDF Operators</h3>
+              <p>Specify a signed distance function manually:</p>
+              <ul><li><code>sdf(face(<br>&nbsp;&nbsp;sqrt(sqr(x) + sqr(y) + sqr(z)) - 2,<br>0.1))</code>
+              </li></ul>
+              <p>Expressions:</p>
+              <ul>
+                <li><code>x, y, z</code> - coordinates of current point</li>
+                <li><code>a + b, a - b, a * b, a / b, -a, sqrt(a), sqr(a), abs(a), sin(a), cos(a), exp(a), log(a), min(a, b), max(a, b),
+              atan2(a, b), smooth_union(a, b, r)</code></li>
+                <li><code>face(expr, size)</code> -
+                  Continuous surface for <code>expr</code>, minimum tri size <code>size</code>.
+                  Every discontinuity in the SDF surface should be marked by a <code>face</code>.</li>
+              </ul>
+            </div>
+
+            <div class="section">
+              <h3>Transformations</h3>
+              <ul>
+                <li><code>translate([x,y,z]) {}</code></li>
+                <li><code>rotate([x,y,z]) {}</code></li>
+                <li><code>scale([x,y,z]) {}</code></li>
+              </ul>
+            </div>
+
+            <div class="section">
+              <h3>Boolean Operations</h3>
+              <ul>
+                <li><code>union() {}</code></li>
+                <li><code>intersection() {}</code></li>
+                <li><code>difference() {}</code></li>
+                <li><code>smooth_union(r, detail=200%) {}</code></li>
+                <li><code>smooth_intersection(r, detail=200%) {}</code></li>
+                <li><code>smooth_difference(r, detail=200%) {}</code></li>
+                <li><code>detail(size=0.1) {}</code> - Set minimum feature size</li>
+                <li><code>shell(thickness) {}</code> - Create a hollow shell</li>
+              </ul>
+            </div>
+
+            <div class="section">
+              <h3>Keyboard Shortcuts</h3>
+              <ul>
+                <li><code>Tab</code> - Indent code</li>
+                <li><code>Shift+Tab</code> - Unindent code</li>
+                <li><code>Esc</code> then <code>Tab</code> - Move focus out of editor
+                (<a href="https://codemirror.net/examples/tab/">for screenreaders</a>)</li>
+                <li><code>Ctrl+5</code> - Generate mesh</li>
+                <li><code>Esc</code> - Return to preview</li>
+              </ul>
+            </div>
+
+            <div class="section">
+              <h3>Example</h3>
+              <pre>
+smooth_union(0.1) {
+  sphere(1);
+  translate([0.8, 0, 0])
+    sphere(0.7);
+}</pre>
+            </div>
+
+            <div class="section links">
+              <p>
+                <a href="https://github.com/FeepingCreature/fncad" target="_blank">Source Code</a> |
+                <a href="https://github.com/FeepingCreature/fncad/issues" target="_blank">Issues</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="menu-bar">
+        <div class="menu-container">
+    
+          <div class="dropdown">
+            <button class="dropdown-button">File</button>
+            <div class="dropdown-content">
+              <a href="#" id="new-document">New</a>
+              <div class="dropdown-divider"></div>
+              <a href="#" id="export-stl">Export as STL</a>
+              <a href="#" id="share-gist">Share with Gist</a>
+              <a href="#" id="share-gdrive">Share with Google Drive</a>
+              <div class="dropdown-divider"></div>
+              <a href="#" id="import-url">Import from URL</a>
+            </div>
+          </div>
+
+          <div class="dropdown">
+            <button class="dropdown-button">Scene</button>
+            <div class="dropdown-content">
+              <a href="#" id="view-preview">Live Preview <span class="shortcut">[Esc]</span></a>
+              <a href="#" id="view-mesh">Generate Mesh <span class="shortcut">[Ctrl+5]</span></a>
+            </div>
+          </div>
+          
+          <div class="dropdown">
+            <button class="dropdown-button">View</button>
+            <div class="dropdown-content">
+              <a href="#" id="theme-dark" class="theme-option active">Dark Theme</a>
+              <a href="#" id="theme-solarized-light" class="theme-option">Solarized Light</a>
+              <a href="#" id="theme-blue" class="theme-option">Blue Theme</a>
+              <a href="#" id="theme-high-contrast" class="theme-option">High Contrast</a>
+              <div class="dropdown-divider"></div>
+              <a href="#" id="view-rainbow-mode" class="menu-item">Rainbow Colors</a>
+              <div class="dropdown-divider"></div>
+              <a href="#" id="toggle-fullscreen">Fullscreen <span class="shortcut">[F11]</span></a>
+            </div>
+          </div>
+
+          <div class="dropdown">
+            <button class="dropdown-button">Help</button>
+            <div class="dropdown-content">
+              <a href="#" id="show-help">Cheatsheet</a>
+              <a href="#" class="examples-menu-trigger">Examples</a>
+              <div id="examples-dropdown" class="examples-dropdown">
+                <!-- Examples will be populated here via JavaScript -->
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="https://github.com/fnCAD/fnCAD/" target="_blank">GitHub Repository</a>
+              <a href="https://github.com/fnCAD/fnCAD/issues" target="_blank">File an Issue</a>
+            </div>
+          </div>
+          
+          <!-- Authentication status icons -->
+          <div class="auth-status">
+            <div class="auth-icon github" id="github-auth-status" title="GitHub">
+              <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.09.682-.217.682-.48 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.934.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.577.688.48C19.138 20.167 22 16.42 22 12c0-5.523-4.477-10-10-10z"></path>
+              </svg>
+              <div class="dropdown-content">
+                <a href="#" id="github-logout">Logout from GitHub</a>
+              </div>
+            </div>
+            <div class="auth-icon google" id="google-auth-status" title="Google Drive">
+              <svg viewBox="0 0 24 24" width="24" height="24">
+                <!-- Official Google Drive logo adapted to 24x24 viewBox with inkscape -->
+                <!-- bleh todo clean this up -->
+                <path
+                  d="m 1.812116,20.538388 1.0570676,2.043086 c 0.2196505,0.430123 0.5353979,0.768077 0.906058,1.013862 L 7.5504833,16.28324 H 0 c 0,0.476208 0.10982521,0.952416 0.32947563,1.382539 z"
+                  fill="#0066da"
+                  style="stroke-width:0.290438" />
+                <path
+                  d="M 11.984676,7.6807735 8.2094345,0.36867713 C 7.8387745,0.61446188 7.523027,0.95241591 7.3033765,1.3825392 L 0.32947563,14.900701 A 2.487541,2.7835123 0 0 0 0,16.28324 h 7.5504833 z"
+                  fill="#00ac47"
+                  style="stroke-width:0.290438" />
+                <path
+                  d="m 20.194111,23.595336 c 0.37066,-0.245785 0.686407,-0.583739 0.906058,-1.013862 l 0.439301,-0.844885 2.100407,-4.07081 c 0.21965,-0.430123 0.329475,-0.906331 0.329475,-1.382539 H 16.41832 l 1.606743,3.533156 z"
+                  fill="#ea4335"
+                  style="stroke-width:0.290438" />
+                <path
+                  d="M 11.984676,7.6807735 15.759918,0.36867713 C 15.389258,0.12289238 14.963685,0 14.524384,0 H 9.4449682 C 9.0056673,0 8.5800946,0.13825392 8.2094345,0.36867713 Z"
+                  fill="#00832d"
+                  style="stroke-width:0.290438" />
+                <path
+                  d="M 16.418869,16.28324 H 7.5504833 l -3.7752417,7.312096 c 0.3706601,0.245785 0.7962328,0.368677 1.2355337,0.368677 H 18.958577 c 0.439301,0 0.864874,-0.138254 1.235534,-0.368677 z"
+                  fill="#2684fc"
+                  style="stroke-width:0.290438" />
+                <path
+                  d="M 20.152926,8.1416199 16.665976,1.3825392 C 16.446325,0.95241591 16.130578,0.61446188 15.759918,0.36867713 L 11.984676,7.6807735 16.418869,16.28324 h 7.536755 c 0,-0.476208 -0.109825,-0.952416 -0.329475,-1.382539 z"
+                  fill="#ffba00"
+                  style="stroke-width:0.290438" />
+              </svg>
+              <div class="dropdown-content">
+                <a href="#" id="google-logout">Logout from Google Drive</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Tabs are now part of the menu bar -->
+          <div class="tab-container">
+            <button class="new-tab-button">+</button>
+            <!-- Tabs will be populated here via JavaScript -->
+          </div>
+        </div>
+      </div>
+      <div id="split-container">
+        <div id="editor-pane">
+        </div>
+        <div id="preview-pane">
+          <div id="spinner-overlay" class="hidden">
+            <div class="spinner"></div>
+            <div class="spinner-text">Generating Mesh...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
